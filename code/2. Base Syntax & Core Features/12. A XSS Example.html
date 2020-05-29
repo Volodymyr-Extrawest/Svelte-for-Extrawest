@@ -1,0 +1,6 @@
+<p>Want to see XSS in action?</p><p>Here's an example (you can quickly enter it here: <a href="https://svelte.dev/repl" rel="noopener noreferrer" target="_blank">https://svelte.dev/repl</a>):</p><pre class="prettyprint linenums">&lt;script&gt;
+    let userInput = '';
+&lt;/script&gt;
+
+&lt;input type="text" bind:value={userInput} /&gt;
+&lt;div&gt;{@html userInput}&lt;/div&gt;</pre><p>This will render a text input - now enter the following value into that input (you can simply copy &amp; paste it):</p><pre class="prettyprint linenums">&lt;img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onload="alert('You were hacked!');"&gt;</pre><p>You should get an alert on your page.</p>

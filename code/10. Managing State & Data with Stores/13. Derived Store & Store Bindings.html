@@ -1,0 +1,34 @@
+<p>There are two other features which you can use in conjunction with Svelte stores:</p><p><strong>1) Derived Stores</strong></p><p>You can have a store which produces values based on another store + some adjustment logic.</p><p>Link: <a href="https://svelte.dev/tutorial/derived-stores" rel="noopener noreferrer" target="_blank">https://svelte.dev/tutorial/derived-stores</a></p><p>Example:</p><pre class="prettyprint linenums">import { readable, derived } from 'svelte/store';
+
+export const time = readable(new Date(), function start(set) {
+    const interval = setInterval(() =&gt; {
+        set(new Date());
+    }, 1000);
+
+    return function stop() {
+        clearInterval(interval);
+    };
+});
+
+const start = new Date();
+
+export const elapsed = derived(
+    time,
+    $time =&gt; Math.round(($time - start) / 1000)
+);</pre><p><strong>2) Store Bindings</strong></p><p>Allows you to bind: to values stored in a store.</p><p>Link: <a href="https://svelte.dev/tutorial/store-bindings" rel="noopener noreferrer" target="_blank">https://svelte.dev/tutorial/store-bindings</a></p><p>Example:</p><p><code><strong>store.js</strong></code></p><pre class="prettyprint linenums">import { writable, derived } from 'svelte/store';
+
+export const name = writable('world');
+
+export const greeting = derived(
+    name,
+    $name =&gt; `Hello ${$name}!`
+);</pre><p><code><strong>App.svelte</strong></code></p><pre class="prettyprint linenums">&lt;script&gt;
+    import { name, greeting } from './stores.js';
+&lt;/script&gt;
+
+&lt;h1&gt;{$greeting}&lt;/h1&gt;
+&lt;input bind:value={$name}&gt;
+
+&lt;button on:click="{() =&gt; $name += '!'}"&gt;
+    Add exclamation mark!
+&lt;/button&gt;</pre>
